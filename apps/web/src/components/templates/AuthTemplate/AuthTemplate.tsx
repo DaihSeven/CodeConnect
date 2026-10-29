@@ -25,7 +25,7 @@ export default function AuthTemplate({ banner, children }: AuthTemplateProps) {
       <BackgroundSymbol className="-top-16 -left-24 w-72 lg:top-0 lg:left-24 lg:w-[420px]" />
       <BackgroundSymbol className="-right-20 -bottom-24 w-72 lg:right-24 lg:-bottom-10 lg:w-[420px]" />
 
-      <div className="relative flex w-full max-w-[646px] flex-col gap-8 rounded-3xl bg-surface-raised p-4 sm:p-[82px] lg:max-w-[994px] lg:flex-row lg:items-stretch lg:gap-[69px] lg:p-[77px]">
+      <div className="relative flex w-full max-w-[646px] flex-col gap-8 rounded-3xl bg-surface-raised p-4 sm:p-[82px] lg:max-w-[994px] lg:flex-row lg:items-stretch lg:gap-[69px] lg:px-[77px] lg:py-14">
         <aside className="h-[360px] shrink-0 sm:h-[415px] lg:h-auto lg:w-[407px]">
           {banner}
         </aside>

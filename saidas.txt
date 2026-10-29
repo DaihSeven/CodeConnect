@@ -1,53 +1,24 @@
-SAÍDA 1 - Primeira versão da página de login (feita sem ver o layout)
+SAÍDA - Ajustes na LoginPage (desktop, comparando com o Figma 996x748, banner 407x628)
 
-A imagem do layout não chegou até mim, só o texto. Montei o layout a partir dos assets.
+Três ajustes feitos, sem mexer em mais nada. Testes (19 em 11 arquivos), lint e build passam. Não há navegador no ambiente, então não comparei a página renderizada com o Figma.
 
-Assets escolhidos (conferi vendo as imagens):
-- Banner do login: imagens-gerais/img-1-{desktop,tablet,mobile}.png. O logo "code connect" já vem embutido na imagem.
-- Banner do cadastro (futuro): imagens-gerais/img2-*, com as mesmas três versões.
-- Logo: logo/logo-large.svg, mostrado acima do formulário.
-- Sociais: icones/png/github.png (branco, para fundo escuro) e icones/png/google.png. Não existe ícone de Gmail, então o botão "Gmail" usa o "G" do Google.
-
-Estrutura em src/components (cada componente com um .test.tsx ao lado):
-- atoms: Button, Input, Label, Logo.
-- molecules: FormField (label, input e erro), SocialButton, Banner (troca a imagem entre mobile, tablet e desktop).
-- organisms: LoginForm (email, senha, lembrar-me, esqueci a senha, login, GitHub/Gmail e link de cadastro), com validação antes de enviar.
-- templates: AuthTemplate, o layout reaproveitável (banner como slot, conteúdo como children).
-- pages: LoginPage.
-
-Configuração: Tailwind v4, Vitest, jsdom e React Testing Library. Removi o App.css do template do Vite. Adicionei pnpm web:test na raiz e documentei no CLAUDE.md.
-Resultado: 18 testes passando, lint e build sem erro.
-
-
-SAÍDA 2 - Refeita seguindo o layout real (code-connect/Login*.png)
-
-Meu primeiro palpite estava errado: eu tinha feito banner de um lado e formulário do outro, com o logo acima do formulário. O design é um card escuro centralizado sobre um fundo escuro com o símbolo do CodeConnect em baixa opacidade. O banner fica dentro do card: ao lado do formulário no desktop e acima dele em tablet e mobile.
-
-Mudanças, tiradas das imagens:
-- Cores: fundo #00090e, card #171d1f, verde #81fe88 e campos cinza #888 (medidos nas imagens).
-- Formulário: campos "Email ou usuário" (texto livre) e "Senha"; checkbox "Lembrar-me" ao lado do link sublinhado "Esqueci a senha"; botão verde "Login" com seta; divisor "ou entre com outras contas"; Github e Gmail só com ícone e nome embaixo; link "Crie seu cadastro!" com ícone de prancheta.
-- Responsivo: card de 994 px no desktop, 646 px no tablet e largura toda no mobile. Banner img-1 desktop, tablet ou mobile conforme a largura.
-- Template: AuthTemplate agora é o fundo mais o card, com o banner em um slot e o formulário como children. Para o cadastro, basta trocar o banner por img2 e passar outro formulário.
-- Estrutura: removi o componente Logo (o logo já vem na imagem do banner) e as variantes do Button. Adicionei Checkbox e Divider, cada um com teste.
-Resultado: 19 testes passando em 11 arquivos, lint e build sem erro. Não há navegador no ambiente, então a página renderizada não foi comparada com o PDF.
+1. Divisor "ou entre com outras contas"
+   - Cada lado do texto tem uma linha de 55px no desktop, na cor muted (#7c7f80), a mesma que medi no design.
+   - Arquivo: components/molecules/Divider/Divider.tsx.
+2. Padding do card
+   - No desktop, 56px em cima e embaixo (antes 77px). Os 77px laterais continuam.
+   - Arquivo: components/templates/AuthTemplate/AuthTemplate.tsx.
+3. Largura dos campos
+   - A coluna do formulário tem no máximo 318px no desktop (antes ocupava ~364px).
+   - Arquivo: components/organisms/LoginForm/LoginForm.tsx.
 
 
 MINHAS DECISÕES
 
-Layout e assets
-- Usei os PNGs de code-connect/ (Login, Login-1, Login-2) como referência. Não abri o PDF, porque as imagens já cobriam o login.
-- Refiz a página inteira quando vi o layout real, em vez de ajustar o palpite anterior, porque a estrutura era diferente (card centralizado, banner dentro do card).
-- Copiei só a seta (arrow-right.svg) e a prancheta (clipboard.svg) da pasta original code-connect/, porque os ícones de public/icones estão com nomes trocados do Figma (o arrow-forward.svg de lá é uma lixeira).
-- Usei o símbolo imagens-gerais/simbolo.svg como fundo decorativo, com opacidade baixa.
-
-Arquitetura (regras do CLAUDE.md)
-- Atomic Design com dependências só para baixo, Tailwind e um teste ao lado de cada componente, cobrindo o uso essencial.
-- O template recebe o banner em um slot, para o cadastro reaproveitar o mesmo layout.
-- O campo de login virou "identifier" (email ou usuário), e a validação só exige que não esteja vazio.
-- Sem roteamento e sem chamada à API: LoginPage só repassa o onSubmit, e os links "esqueci a senha" e "cadastre-se" ainda apontam para #.
-- Botão social rotulado "Gmail" (como no design), com o ícone do Google.
-
-Suposições que você deve conferir
-- Fonte Prompt (instalada via @fontsource/prompt), por parecer a do design.
-- Tamanhos de texto, espaçamentos, e tamanho e posição do símbolo de fundo são aproximados.
-- Breakpoints: desktop a partir de 1024 px, tablet a partir de 640 px.
+- Linhas do divisor: 55px só a partir de 1024px (desktop). Em tablet e mobile mantive as linhas flexíveis de antes, porque o ajuste era só do desktop e linhas de 55px mais o texto não cabem na largura do mobile.
+- O divisor fica centralizado e o texto não quebra de linha. Linhas (55px cada) mais o texto somam mais de 318px, então o divisor passa uns 14px de cada lado da coluna, igual ao Figma (Login-2).
+- Os 318px valem para toda a coluna do formulário (título, campos, botão, sociais e link de cadastro), não só para os inputs. Foi a forma mais simples de os campos ficarem em 318px, e no Figma tudo tem essa largura.
+- O limite de 318px está em LoginForm. Se o cadastro precisar de outra largura, ela pode ser definida no próprio formulário.
+- O padding vertical está no template, então vale para a página de cadastro também.
+- Os 56px foram aplicados com a classe py-14 do Tailwind (3.5rem = 56px). O card agora fica um pouco mais baixo que o do Figma (748px), porque a altura vem do conteúdo. Se quiser exatamente 748px, é só fixar a altura.
+- Substituí o conteúdo anterior do saidas.txt por esta saída, como você pediu.

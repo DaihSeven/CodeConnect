@@ -42,7 +42,7 @@ export default function LoginForm({ onSubmit, onSocialLogin }: LoginFormProps) {
   }
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-6 lg:max-w-[318px]">
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-semibold">Login</h1>
         <p className="text-xl">Boas-vindas! Faça seu login.</p>
