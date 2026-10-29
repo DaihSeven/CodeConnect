@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Button from '../../atoms/Button/Button'
 import Checkbox from '../../atoms/Checkbox/Checkbox'
 import Divider from '../../molecules/Divider/Divider'
+import FormHeader from '../../molecules/FormHeader/FormHeader'
 import FormField from '../../molecules/FormField/FormField'
 import SocialButton from '../../molecules/SocialButton/SocialButton'
 
@@ -50,10 +51,7 @@ export default function SignUpForm({ onSubmit, onSocialLogin }: SignUpFormProps)
 
   return (
     <div className="flex w-full flex-col gap-6 lg:max-w-[346px]">
-      <div className="flex flex-col gap-6">
-        <h1 className="text-[26px] leading-normal font-semibold lg:text-[31px]">Cadastro</h1>
-        <p className="text-[22px] leading-normal">Olá! Preencha seus dados.</p>
-      </div>
+      <FormHeader title="Cadastro" subtitle="Olá! Preencha seus dados." />
 
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
         <FormField
