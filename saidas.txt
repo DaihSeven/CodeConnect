@@ -1,22 +1,53 @@
-Atualizei o CLAUDE.md e mantive todo o conteúdo anterior. Cada regra entrou numa seção nova, entre "Commands" e "Architecture notes":
+SAÍDA 1 - Primeira versão da página de login (feita sem ver o layout)
 
-- Frontend conventions (apps/web):
-  - Atomic Design em src/components, com as pastas atoms, molecules, organisms, templates e pages.
-  - Dependências só para baixo: um nível nunca importa de si mesmo nem de um nível acima.
-  - Tailwind para estilo.
-  - Cada componente com teste co-localizado (Vitest + React Testing Library), cobrindo só o uso essencial e sem exigir 100% de cobertura.
-- Backend conventions (apps/api):
-  - Recursos como substantivos no plural.
-  - Verbos HTTP com os status codes certos.
-  - Rotas aninhadas só quando há posse real, no máximo um nível.
-  - Paginação com ?page e ?limit.
-  - Envelope de resposta statusCode, message, data e errors, implementado uma vez com interceptor e exception filter globais.
-- Git conventions: Conventional Commits com os tipos feat, fix, docs, style, refactor, perf, test, build, ci, chore e revert, e os escopos web, api e root.
+A imagem do layout não chegou até mim, só o texto. Montei o layout a partir dos assets.
 
-Algumas coisas que eu decidi e você pode querer ajustar:
+Assets escolhidos (conferi vendo as imagens):
+- Banner do login: imagens-gerais/img-1-{desktop,tablet,mobile}.png. O logo "code connect" já vem embutido na imagem.
+- Banner do cadastro (futuro): imagens-gerais/img2-*, com as mesmas três versões.
+- Logo: logo/logo-large.svg, mostrado acima do formulário.
+- Sociais: icones/png/github.png (branco, para fundo escuro) e icones/png/google.png. Não existe ícone de Gmail, então o botão "Gmail" usa o "G" do Google.
 
-- O seu pedido citava statusCode, message e errors no envelope. Acrescentei o campo data para levar o payload de sucesso e os metadados de paginação.
-- Os valores de default e máximo de limit ficaram sem número definido. Se quiser, escolho um (por exemplo 20 e 100).
-- Pedi um commit por escopo quando a mudança toca mais de um (web, api, root). Isso é uma regra minha, não estava no seu pedido.
+Estrutura em src/components (cada componente com um .test.tsx ao lado):
+- atoms: Button, Input, Label, Logo.
+- molecules: FormField (label, input e erro), SocialButton, Banner (troca a imagem entre mobile, tablet e desktop).
+- organisms: LoginForm (email, senha, lembrar-me, esqueci a senha, login, GitHub/Gmail e link de cadastro), com validação antes de enviar.
+- templates: AuthTemplate, o layout reaproveitável (banner como slot, conteúdo como children).
+- pages: LoginPage.
 
-O Tailwind e o React Testing Library ainda não estão instalados em apps/web. As regras estão documentadas, mas as dependências e a configuração precisam ser adicionadas.
+Configuração: Tailwind v4, Vitest, jsdom e React Testing Library. Removi o App.css do template do Vite. Adicionei pnpm web:test na raiz e documentei no CLAUDE.md.
+Resultado: 18 testes passando, lint e build sem erro.
+
+
+SAÍDA 2 - Refeita seguindo o layout real (code-connect/Login*.png)
+
+Meu primeiro palpite estava errado: eu tinha feito banner de um lado e formulário do outro, com o logo acima do formulário. O design é um card escuro centralizado sobre um fundo escuro com o símbolo do CodeConnect em baixa opacidade. O banner fica dentro do card: ao lado do formulário no desktop e acima dele em tablet e mobile.
+
+Mudanças, tiradas das imagens:
+- Cores: fundo #00090e, card #171d1f, verde #81fe88 e campos cinza #888 (medidos nas imagens).
+- Formulário: campos "Email ou usuário" (texto livre) e "Senha"; checkbox "Lembrar-me" ao lado do link sublinhado "Esqueci a senha"; botão verde "Login" com seta; divisor "ou entre com outras contas"; Github e Gmail só com ícone e nome embaixo; link "Crie seu cadastro!" com ícone de prancheta.
+- Responsivo: card de 994 px no desktop, 646 px no tablet e largura toda no mobile. Banner img-1 desktop, tablet ou mobile conforme a largura.
+- Template: AuthTemplate agora é o fundo mais o card, com o banner em um slot e o formulário como children. Para o cadastro, basta trocar o banner por img2 e passar outro formulário.
+- Estrutura: removi o componente Logo (o logo já vem na imagem do banner) e as variantes do Button. Adicionei Checkbox e Divider, cada um com teste.
+Resultado: 19 testes passando em 11 arquivos, lint e build sem erro. Não há navegador no ambiente, então a página renderizada não foi comparada com o PDF.
+
+
+MINHAS DECISÕES
+
+Layout e assets
+- Usei os PNGs de code-connect/ (Login, Login-1, Login-2) como referência. Não abri o PDF, porque as imagens já cobriam o login.
+- Refiz a página inteira quando vi o layout real, em vez de ajustar o palpite anterior, porque a estrutura era diferente (card centralizado, banner dentro do card).
+- Copiei só a seta (arrow-right.svg) e a prancheta (clipboard.svg) da pasta original code-connect/, porque os ícones de public/icones estão com nomes trocados do Figma (o arrow-forward.svg de lá é uma lixeira).
+- Usei o símbolo imagens-gerais/simbolo.svg como fundo decorativo, com opacidade baixa.
+
+Arquitetura (regras do CLAUDE.md)
+- Atomic Design com dependências só para baixo, Tailwind e um teste ao lado de cada componente, cobrindo o uso essencial.
+- O template recebe o banner em um slot, para o cadastro reaproveitar o mesmo layout.
+- O campo de login virou "identifier" (email ou usuário), e a validação só exige que não esteja vazio.
+- Sem roteamento e sem chamada à API: LoginPage só repassa o onSubmit, e os links "esqueci a senha" e "cadastre-se" ainda apontam para #.
+- Botão social rotulado "Gmail" (como no design), com o ícone do Google.
+
+Suposições que você deve conferir
+- Fonte Prompt (instalada via @fontsource/prompt), por parecer a do design.
+- Tamanhos de texto, espaçamentos, e tamanho e posição do símbolo de fundo são aproximados.
+- Breakpoints: desktop a partir de 1024 px, tablet a partir de 640 px.

@@ -15,6 +15,7 @@
     "api:lint": "pnpm --filter api lint",
     "api:test": "pnpm --filter api test",
     "dev": "pnpm --parallel -r run dev",
-    "build": "pnpm -r run build"
+    "build": "pnpm -r run build",
+    "web:test": "pnpm --filter web test"
   }
 }

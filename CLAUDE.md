@@ -22,6 +22,7 @@ pnpm install              # installs all workspace deps
 pnpm web:dev              # Vite dev server
 pnpm web:build            # tsc -b && vite build
 pnpm web:lint             # oxlint
+pnpm web:test             # vitest run (jsdom + React Testing Library)
 pnpm api:dev              # nest start --watch
 pnpm api:build            # nest build -> apps/api/dist
 pnpm api:start            # node dist/main (after build)
@@ -31,6 +32,8 @@ pnpm dev / pnpm build     # run dev/build across all apps
 ```
 
 To run any other app script, use `pnpm web <script>` or `pnpm api <script>`, for example `pnpm api test:e2e` or `pnpm api format`.
+
+To run a single web test: `pnpm web test src/components/atoms/Button/Button.test.tsx`.
 
 To run a single API test, pass a file filter and/or `-t` with the test name through to vitest:
 
