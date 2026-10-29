@@ -1,0 +1,20 @@
+{
+  "name": "code-connect",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "scripts": {
+    "web": "pnpm --filter web",
+    "api": "pnpm --filter api",
+    "web:dev": "pnpm --filter web dev",
+    "web:build": "pnpm --filter web build",
+    "web:preview": "pnpm --filter web preview",
+    "web:lint": "pnpm --filter web lint",
+    "api:dev": "pnpm --filter api start:dev",
+    "api:build": "pnpm --filter api build",
+    "api:start": "pnpm --filter api start:prod",
+    "api:lint": "pnpm --filter api lint",
+    "api:test": "pnpm --filter api test",
+    "dev": "pnpm --parallel -r run dev",
+    "build": "pnpm -r run build"
+  }
+}

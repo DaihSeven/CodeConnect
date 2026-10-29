@@ -1,0 +1,22 @@
+Atualizei o CLAUDE.md e mantive todo o conteúdo anterior. Cada regra entrou numa seção nova, entre "Commands" e "Architecture notes":
+
+- Frontend conventions (apps/web):
+  - Atomic Design em src/components, com as pastas atoms, molecules, organisms, templates e pages.
+  - Dependências só para baixo: um nível nunca importa de si mesmo nem de um nível acima.
+  - Tailwind para estilo.
+  - Cada componente com teste co-localizado (Vitest + React Testing Library), cobrindo só o uso essencial e sem exigir 100% de cobertura.
+- Backend conventions (apps/api):
+  - Recursos como substantivos no plural.
+  - Verbos HTTP com os status codes certos.
+  - Rotas aninhadas só quando há posse real, no máximo um nível.
+  - Paginação com ?page e ?limit.
+  - Envelope de resposta statusCode, message, data e errors, implementado uma vez com interceptor e exception filter globais.
+- Git conventions: Conventional Commits com os tipos feat, fix, docs, style, refactor, perf, test, build, ci, chore e revert, e os escopos web, api e root.
+
+Algumas coisas que eu decidi e você pode querer ajustar:
+
+- O seu pedido citava statusCode, message e errors no envelope. Acrescentei o campo data para levar o payload de sucesso e os metadados de paginação.
+- Os valores de default e máximo de limit ficaram sem número definido. Se quiser, escolho um (por exemplo 20 e 100).
+- Pedi um commit por escopo quando a mudança toca mais de um (web, api, root). Isso é uma regra minha, não estava no seu pedido.
+
+O Tailwind e o React Testing Library ainda não estão instalados em apps/web. As regras estão documentadas, mas as dependências e a configuração precisam ser adicionadas.
