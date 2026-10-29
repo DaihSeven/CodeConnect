@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import LoginForm from './LoginForm'
 
 describe('LoginForm', () => {
   it('submits the typed values when valid', async () => {
     const onSubmit = vi.fn()
-    render(<LoginForm onSubmit={onSubmit} />)
+    render(<LoginForm onSubmit={onSubmit} />, { wrapper: MemoryRouter })
 
     await userEvent.type(screen.getByLabelText('Email ou usuário'), 'usuario123')
     await userEvent.type(screen.getByLabelText('Senha'), 'segredo123')
@@ -22,7 +23,7 @@ describe('LoginForm', () => {
 
   it('shows validation errors and does not submit when fields are empty', async () => {
     const onSubmit = vi.fn()
-    render(<LoginForm onSubmit={onSubmit} />)
+    render(<LoginForm onSubmit={onSubmit} />, { wrapper: MemoryRouter })
 
     await userEvent.click(screen.getByRole('button', { name: 'Login' }))
 
@@ -33,7 +34,7 @@ describe('LoginForm', () => {
 
   it('reports which social provider was chosen', async () => {
     const onSocialLogin = vi.fn()
-    render(<LoginForm onSocialLogin={onSocialLogin} />)
+    render(<LoginForm onSocialLogin={onSocialLogin} />, { wrapper: MemoryRouter })
 
     await userEvent.click(screen.getByRole('button', { name: 'Github' }))
     await userEvent.click(screen.getByRole('button', { name: 'Gmail' }))

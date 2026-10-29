@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import Button from '../../atoms/Button/Button'
 import Checkbox from '../../atoms/Checkbox/Checkbox'
 import Divider from '../../molecules/Divider/Divider'
@@ -95,10 +96,10 @@ export default function LoginForm({ onSubmit, onSocialLogin }: LoginFormProps) {
 
       <p className="flex flex-col items-center gap-3 text-center text-sm">
         Ainda não tem conta?
-        <a href="#" className="flex items-center gap-2 text-base text-brand hover:underline">
+        <Link to="/cadastro" className="flex items-center gap-2 text-base text-brand hover:underline">
           Crie seu cadastro!
           <img src="/icones/svg/clipboard.svg" alt="" width={18} height={21} />
-        </a>
+        </Link>
       </p>
     </div>
   )
